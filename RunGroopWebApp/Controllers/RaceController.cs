@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RunGroopWebApp.Data;
 using RunGroopWebApp.Models;
 
@@ -23,6 +24,13 @@ namespace RunGroopWebApp.Controllers
         {
             List<Race> races = _context.Races.ToList();
             return View(races );
+        }
+        public IActionResult Detail(int id)
+        {
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            Race race = _context.Races.Include(a => a.Address).FirstOrDefault(c => c.Id == id);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            return View(race );
         }
     }
 }
