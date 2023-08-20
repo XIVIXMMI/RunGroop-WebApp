@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RunGroopWebApp.Data;
+using RunGroopWebApp.Interfaces;
 using RunGroopWebApp.Models;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,24 +14,22 @@ namespace RunGroopWebApp.Controllers
 {
     public class ClubController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IClubRepository _clubRepository;
 
         // GET: /<controller>/
-        public ClubController(ApplicationDbContext context)
+        public ClubController(IClubRepository clubRepository)
         {
-            _context = context;
+            _clubRepository = clubRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Club> clubs = _context.Clubs.ToList();
+            IEnumerable<Club> clubs = await _clubRepository.GetAll();
             return View(clubs);
         }
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-            Club club = _context.Clubs.Include(a => a.Address).FirstOrDefault(c => c.Id == id);
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-            return View(club);
+            Club clubs = await _clubRepository.GetByIdAsync(id);
+            return View(clubs);
         }
     }
 }
