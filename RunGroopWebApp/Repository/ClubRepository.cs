@@ -35,21 +35,20 @@ namespace RunGroopWebApp.Repository
 
         public async Task<Club> GetByIdAsync(int id)
         {
-#pragma warning disable CS8603 // Possible null reference return.
-            return await _context.Clubs
-                 .Include(i => i.Address)
-                 .FirstOrDefaultAsync(i => i.Id == id);
-#pragma warning restore CS8603 // Possible null reference return.
+            return await _context.Clubs.Include(i => i.Address).FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<Club> GetByIdAsyncNoTracking(int id)
+        {
+            return await _context.Clubs.Include(i => i.Address).AsNoTracking().FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public async Task<IEnumerable<Club>> GetClubsByCity(string city)
         {
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
             return await _context.Clubs
                 .Where(c => c.Address.City
                 .Contains(city))
                 .ToListAsync();
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
 
         public bool Save()
