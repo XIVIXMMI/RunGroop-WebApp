@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RunGroopWebApp.Interfaces;
 using RunGroopWebApp.Models;
+using RunGroopWebApp.Repository;
 using RunGroopWebApp.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -117,6 +118,27 @@ namespace RunGroopWebApp.Controllers
             };
 
             _raceRepository.Update(race);
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var raceDetails = await _raceRepository.GetByIdAsync(id);
+
+            if (raceDetails == null) return View("Error");
+
+            return View(raceDetails);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteClub(int id)
+        {
+            var raceDetails = await _raceRepository.GetByIdAsync(id);
+
+            if (raceDetails == null) return View("Error");
+
+            _raceRepository.Delete(raceDetails);
 
             return RedirectToAction("Index");
         }
