@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RunGroopWebApp.Interfaces;
 using RunGroopWebApp.ViewModels;
 
@@ -31,7 +27,8 @@ namespace RunGroopWebApp.Controllers
                     Id = user.Id,
                     Username = user.UserName,
                     Pace = user.Pace,
-                    Mileage = user.Mileage
+                    Mileage = user.Mileage,
+                    ProfileImageUrl = user.ProfileImageUrl,
                 };
                 result.Add(userViewModel);
             }

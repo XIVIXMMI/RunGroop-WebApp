@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace RunGroopWebApp.Models
 {
-	public class AppUser : IdentityUser
+    public class AppUser : IdentityUser
 	{
 		public int Pace { get; set; }
 		public int Mileage { get; set; }
